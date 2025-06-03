@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Materi Interaktif Kelas 10 Semester 2</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f1f5f9;
+        }
+        .main-nav-btn.active {
+            border-bottom-color: #3b82f6; /* Default active blue */
+            color: #1e293b;
+        }
+        .main-nav-btn[data-subject="bahasaInggris"].active { border-bottom-color: #3b82f6; } /* Blue */
+        .main-nav-btn[data-subject="bahasaIndonesia"].active { border-bottom-color: #ef4444; } /* Red */
+        .main-nav-btn[data-subject="seniTeater"].active { border-bottom-color: #8b5cf6; } /* Purple */
+
+        .sub-nav-btn.active {
+            background-color: #e0f2fe;
+            color: #0c4a6e;
+            font-weight: 600;
+        }
+        .content-card {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        th, td {
+            border: 1px solid #e2e8f0;
+            padding: 0.75rem;
+            text-align: left;
+        }
+        th {
+            background-color: #f8fafc;
+        }
+        tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+        .interactive-element {
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+        }
+        .interactive-element:hover {
+            transform: scale(1.03);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .interactive-element.selected {
+             border-color: #fbbf24;
+             background-color: #fefce8;
+             transform: scale(1.03);
+        }
+    </style>
+</head>
+<body class="text-slate-800">
+
+    <div class="container mx-auto max-w-7xl p-4 sm:p-6 lg:p-8">
+        <header class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-slate-900">Materi Pembelajaran Kelas 10</h1>
+            <p class="text-lg text-slate-600 mt-2">Semester 2 - Kurikulum Merdeka</p>
+        </header>
+
+        <nav id="main-nav" class="flex justify-center border-b-2 border-slate-200 mb-8 space-x-2 md:space-x-6">
+            <button data-subject="bahasaInggris" class="main-nav-btn py-4 px-3 sm:px-6 text-lg font-semibold border-b-4 border-transparent text-slate-500 hover:text-slate-800 transition">Bahasa Inggris</button>
+            <button data-subject="bahasaIndonesia" class="main-nav-btn py-4 px-3 sm:px-6 text-lg font-semibold border-b-4 border-transparent text-slate-500 hover:text-slate-800 transition">Bahasa Indonesia</button>
+            <button data-subject="seniTeater" class="main-nav-btn py-4 px-3 sm:px-6 text-lg font-semibold border-b-4 border-transparent text-slate-500 hover:text-slate-800 transition">Seni Teater</button>
+        </nav>
+
+        <div class="flex flex-col lg:flex-row gap-8">
+            <aside id="sub-nav-container" class="w-full lg:w-1/4">
+                <h2 id="sub-nav-title" class="text-xl font-bold mb-4 text-slate-700">Pilih Topik</h2>
+                <div id="sub-nav" class="flex flex-row lg:flex-col flex-wrap justify-start gap-2">
+                    </div>
+            </aside>
+
+            <main id="content-area" class="w-full lg:w-3/4 bg-white p-6 sm:p-8 rounded-2xl shadow-lg min-h-[60vh]">
+                </main>
+        </div>
+    </div>
+
+<script>
+const contentData = {
+    // BAHASA INGGRIS
+    "bahasaInggris": [
+        { id: "inggris-1", title: "Simple Present Tense", content: `...` },
+        { id: "inggris-2", title: "Expository Texts", content: `...` },
+        { id: "inggris-3", title: "Adjectives & Adverbs", content: `...` },
+        { id: "inggris-4", title: "Imperative Sentences", content: `...` },
+        { id: "inggris-5", title: "Procedure Texts", content: `...` },
+        { id: "inggris-6", title: "Fractured Stories", content: `...` },
+    ],
+    // BAHASA INDONESIA
+    "bahasaIndonesia": [
+        { id: "indonesia-1", title: "Teks Negosiasi", content: `...` },
+        { id: "indonesia-2", title: "Teks Biografi", content: `...` },
+        { id: "indonesia-3", title: "Puisi", content: `...` },
+    ],
+    // SENI TEATER
+    "seniTeater": [
+        { id: "teater-1", title: "Apresiasi Naskah & Pementasan", content: `...` },
+        { id: "teater-2", title: "Merancang Pementasan", content: `...` },
+    ]
+};
+
+// FULL CONTENT DEFINITIONS
+contentData.bahasaInggris[0].content = `
+    <h3 class="text-3xl font-bold text-slate-800 mb-4">Simple Present Tense</h3>
+    <p class="mb-6 text-slate-600">Bentuk waktu (tense) yang paling dasar untuk menyatakan fakta umum, kebiasaan, dan jadwal tetap. Menguasai ini adalah kunci untuk komunikasi sehari-hari.</p>
+    <div class="space-y-4">
+        <div>
+            <h4 class="font-semibold text-lg mb-2">Fungsi Utama</h4>
+            <ul class="list-disc list-inside text-slate-700 space-y-1">
+                <li><b>Fakta Umum:</b> Sesuatu yang selalu benar. Contoh: <i>The sun rises in the east.</i></li>
+                <li><b>Kebiasaan/Rutinitas:</b> Kegiatan yang dilakukan berulang. Contoh: <i>I drink coffee every morning.</i></li>
+                <li><b>Jadwal Tetap:</b> Jadwal atau situasi permanen. Contoh: <i>The train leaves at 7 AM.</i></li>
+            </ul>
+        </div>
+        <div>
+            <h4 class="font-semibold text-lg mb-2">Rumus Kalimat</h4>
+            <div class="overflow-x-auto">
+                <table>
+                    <thead>
+                        <tr><th>Jenis</th><th>Subjek</th><th>Rumus</th><th>Contoh</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td rowspan="2">Positif (+)</td><td>I, You, We, They</td><td>Subject + Verb 1</td><td><i>They play football.</i></td></tr>
+                        <tr><td>He, She, It</td><td>Subject + Verb 1 + -s/-es</td><td><i>She works in a hospital.</i></td></tr>
+                        <tr><td rowspan="2">Negatif (-)</td><td>I, You, We, They</td><td>Subject + do not + Verb 1</td><td><i>I do not like coffee.</i></td></tr>
+                        <tr><td>He, She, It</td><td>Subject + does not + Verb 1</td><td><i>He does not understand.</i></td></tr>
+                        <tr><td rowspan="2">Tanya (?)</td><td>I, You, We, They</td><td>Do + Subject + Verb 1?</td><td><i>Do you enjoy reading?</i></td></tr>
+                        <tr><td>He, She, It</td><td>Does + Subject + Verb 1?</td><td><i>Does she speak Spanish?</i></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+`;
+contentData.bahasaInggris[1].content = `
+    <h3 class="text-3xl font-bold text-slate-800 mb-4">Expository Texts (Teks Eksposisi)</h3>
+    <p class="mb-6 text-slate-600">Teks yang bertujuan menjelaskan suatu topik dengan fakta dan bukti. Kita akan fokus pada *Analytical Exposition* yang bertujuan meyakinkan pembaca.</p>
+    <h4 class="font-semibold text-lg mb-2">Struktur Teks Eksposisi Analitis</h4>
+    <div class="space-y-4">
+        <div class="p-4 bg-slate-50 rounded-lg border-l-4 border-blue-400">
+            <strong class="text-blue-600">1. Thesis (Tesis)</strong>
+            <p class="text-slate-600 mt-1">Memperkenalkan topik dan menyatakan posisi penulis di awal teks. Contoh: <i>I believe that breakfast is crucial.</i></p>
+        </div>
+        <div class="p-4 bg-slate-50 rounded-lg border-l-4 border-blue-400">
+            <strong class="text-blue-600">2. Arguments (Argumen)</strong>
+            <p class="text-slate-600 mt-1">Menyajikan serangkaian argumen yang didukung fakta untuk mendukung tesis. Contoh: <i>Firstly, breakfast provides energy... Secondly, it helps maintain a healthy weight...</i></p>
+        </div>
+        <div class="p-4 bg-slate-50 rounded-lg border-l-4 border-blue-400">
+            <strong class="text-blue-600">3. Reiteration (Penegasan Ulang)</strong>
+            <p class="text-slate-600 mt-1">Menyimpulkan dan menegaskan kembali posisi penulis di akhir teks. Contoh: <i>In conclusion, eating breakfast is a vital habit.</i></p>
+        </div>
+    </div>
+`;
+contentData.bahasaInggris[2].content = `
+    <h3 class="text-3xl font-bold text-slate-800 mb-4">Adjectives & Adverbs</h3>
+    <p class="mb-6 text-slate-600">Kata sifat (Adjectives) dan kata keterangan (Adverbs) berfungsi untuk membuat kalimat lebih deskriptif dan detail.</p>
+    <div class="grid md:grid-cols-2 gap-6">
+        <div class="p-6 border border-slate-200 rounded-xl bg-sky-50">
+            <h4 class="font-semibold text-lg mb-2 text-sky-800">Adjectives (Kata Sifat)</h4>
+            <p>Menerangkan <b>kata benda (noun)</b> atau <b>kata ganti (pronoun)</b>.</p>
+            <p class="mt-2 text-sm italic">Contoh: a <b>beautiful</b> painting, a <b>friendly</b> dog.</p>
+        </div>
+        <div class="p-6 border border-slate-200 rounded-xl bg-indigo-50">
+            <h4 class="font-semibold text-lg mb-2 text-indigo-800">Adverbs (Kata Keterangan)</h4>
+            <p>Menerangkan <b>kata kerja (verb)</b>, <b>kata sifat (adjective)</b>, atau <b>adverb lain</b>.</p>
+            <p class="mt-2 text-sm italic">Contoh: He drives <b>carefully</b>. It is <b>very</b> hot.</p>
+        </div>
+    </div>
+`;
+contentData.bahasaInggris[3].content = `
+    <h3 class="text-3xl font-bold text-slate-800 mb-4">Imperative Sentences (Kalimat Perintah)</h3>
+    <p class="mb-6 text-slate-600">Digunakan untuk memberi perintah, instruksi, permintaan, atau nasihat secara langsung. Subjek 'you' biasanya tidak disebutkan.</p>
+    <ul class="list-none space-y-3">
+        <li><span class="font-semibold text-green-600">Perintah Positif:</span> Mulai dengan kata kerja dasar. <br><i class="text-slate-500">Contoh: <b>Close</b> the door.</i></li>
+        <li><span class="font-semibold text-red-600">Perintah Negatif (Larangan):</span> Mulai dengan 'Don't'. <br><i class="text-slate-500">Contoh: <b>Don't</b> touch that.</i></li>
+        <li><span class="font-semibold text-purple-600">Ajakan:</span> Gunakan 'Let's'. <br><i class="text-slate-500">Contoh: <b>Let's</b> study together.</i></li>
+        <li><span class="font-semibold text-blue-600">Permintaan Sopan:</span> Tambahkan 'Please'. <br><i class="text-slate-500">Contoh: <b>Please</b> help me.</i></li>
+    </ul>
+`;
+contentData.bahasaInggris[4].content = `
+    <h3 class="text-3xl font-bold text-slate-800 mb-4">Procedure Texts (Teks Prosedur)</h3>
+    <p class="mb-6 text-slate-600">Teks yang memberikan panduan langkah-demi-langkah untuk melakukan atau membuat sesuatu, seperti resep atau manual.</p>
+    <h4 class="font-semibold text-lg mb-2">Struktur Umum</h4>
+    <ol class="list-decimal list-inside space-y-3">
+        <li><b>Goal (Tujuan):</b> Menyatakan apa yang akan dibuat. Biasanya judul. Contoh: <i>How to Make Instant Noodles.</i></li>
+        <li><b>Materials/Tools (Bahan/Alat):</b> Daftar item yang dibutuhkan (jika ada).</li>
+        <li><b>Steps (Langkah-langkah):</b> Urutan tindakan yang harus dilakukan. Menggunakan kata seperti <i>First, Then, Next, Finally.</i></li>
+    </ol>
+`;
+contentData.bahasaInggris[5].content = `
+    <h3 class="text-3xl font-bold text-slate-800 mb-4">Fractured Stories (Teks Naratif)</h3>
+    <p class="mb-6 text-slate-600">Teks yang menceritakan serangkaian peristiwa untuk menghibur pembaca, seringkali dengan memodifikasi cerita klasik yang sudah ada.</p>
+    <h4 class="font-semibold text-lg mb-2">Struktur Umum</h4>
+    <ul class="space-y-4">
+        <li class="p-4 bg-slate-50 rounded-lg">
+            <strong class="text-amber-600">1. Orientation (Orientasi):</strong>
+            <p class="text-slate-600">Memperkenalkan tokoh, waktu, dan tempat. Contoh: <i>Once upon a time, in a faraway land...</i></p>
+        </li>
+        <li class="p-4 bg-slate-50 rounded-lg">
+            <strong class="text-amber-600">2. Complication (Komplikasi):</strong>
+            <p class="text-slate-600">Masalah atau konflik utama mulai muncul dan berkembang.</p>
+        </li>
+        <li class="p-4 bg-slate-50 rounded-lg">
+            <strong class="text-amber-600">3. Resolution (Resolusi):</strong>
+            <p class="text-slate-600">Masalah diselesaikan, cerita mencapai kesimpulan.</p>
+        </li>
+    </ul>
+`;
+contentData.bahasaIndonesia[0].content = `
+    <h3 class="text-3xl font-bold text-slate-800 mb-4">Teks Negosiasi</h3>
+    <p class="mb-6 text-slate-600">Bentuk interaksi sosial untuk mencapai kesepakatan melalui proses tawar-menawar antara dua pihak atau lebih.</p>
+    <h4 class="font-semibold text-lg mb-2">Struktur Teks Negosiasi (Dialog)</h4>
+    <div class="overflow-x-auto">
+        <table>
+            <thead><tr><th>Struktur</th><th>Deskripsi Fungsi</th></tr></thead>
+            <tbody>
+                <tr><td><b>Orientasi</b></td><td>Pembukaan, salam, atau pengenalan awal.</td></tr>
+                <tr><td><b>Permintaan</b></td><td>Pihak pertama menyampaikan keinginannya.</td></tr>
+                <tr><td><b>Pemenuhan</b></td><td>Pihak kedua merespons permintaan.</td></tr>
+                <tr><td><b>Penawaran</b></td><td>Inti proses tawar-menawar dan adu argumen.</td></tr>
+                <tr><td><b>Persetujuan</b></td><td>Kedua pihak mencapai kesepakatan bersama.</td></tr>
+                <tr><td><b>Penutup</b></td><td>Ucapan terima kasih atau salam penutup.</td></tr>
+            </tbody>
+        </table>
+    </div>
+    <p class="mt-4 p-4 bg-yellow-50 text-yellow-800 rounded-lg"><b>Kunci utama:</b> Gunakan bahasa yang santun, persuasif, dan bertujuan mencari solusi yang saling menguntungkan (<i>win-win solution</i>).</p>
+`;
+contentData.bahasaIndonesia[1].content = `
+    <h3 class="text-3xl font-bold text-slate-800 mb-4">Teks Biografi</h3>
+    <p class="mb-6 text-slate-600">Riwayat hidup seseorang yang ditulis oleh orang lain, bertujuan untuk menceritakan kisah, prestasi, dan keteladanan seorang tokoh untuk menginspirasi pembaca.</p>
+    <h4 class="font-semibold text-lg mb-2">Struktur Teks Biografi</h4>
+    <div class="space-y-4">
+        <div class="p-4 bg-slate-50 rounded-lg">
+            <strong>1. Orientasi (Pengenalan):</strong>
+            <p class="text-slate-600 mt-1">Memperkenalkan tokoh secara umum (nama, lahir, keluarga).</p>
+        </div>
+        <div class="p-4 bg-slate-50 rounded-lg">
+            <strong>2. Peristiwa Penting/Masalah:</strong>
+            <p class="text-slate-600 mt-1">Inti cerita berisi rangkaian peristiwa, perjuangan, dan prestasi tokoh secara kronologis.</p>
+        </div>
+        <div class="p-4 bg-slate-50 rounded-lg">
+            <strong>3. Reorientasi (Penutup):</strong>
+            <p class="text-slate-600 mt-1">Berisi kesimpulan atau pandangan penulis tentang tokoh (bersifat opsional).</p>
+        </div>
+    </div>
+`;
+contentData.bahasaIndonesia[2].content = `
+    <h3 class="text-3xl font-bold text-slate-800 mb-4">Puisi</h3>
+    <p class="mb-6 text-slate-600">Karya sastra yang menggunakan bahasa padat, indah, dan kaya makna untuk mengungkapkan pikiran dan perasaan penyair.</p>
+    <div class="grid md:grid-cols-2 gap-6">
+        <div class="p-6 border rounded-xl bg-red-50">
+            <h4 class="font-semibold text-lg mb-2 text-red-800">Unsur Fisik (Lahiriah)</h4>
+            <ul class="list-disc list-inside text-slate-700"><li>Diksi (Pilihan Kata)</li><li>Imaji (Citraan)</li><li>Kata Konkret</li><li>Majas (Gaya Bahasa)</li><li>Rima & Irama</li><li>Tipografi</li></ul>
+        </div>
+        <div class="p-6 border rounded-xl bg-green-50">
+            <h4 class="font-semibold text-lg mb-2 text-green-800">Unsur Batiniah</h4>
+            <ul class="list-disc list-inside text-slate-700"><li>Tema (Makna)</li><li>Rasa (Feeling)</li><li>Nada (Tone)</li><li>Amanat (Pesan)</li></ul>
+        </div>
+    </div>
+`;
+contentData.seniTeater[0].content = `
+    <h3 class="text-3xl font-bold text-slate-800 mb-4">Apresiasi Naskah & Pementasan</h3>
+    <p class="mb-6 text-slate-600">Memahami teater dimulai dari mengapresiasi naskah sebagai karya sastra dan bagaimana naskah tersebut dihidupkan di atas panggung.</p>
+    <h4 class="font-semibold text-lg mb-2">Unsur Pembangun Teater</h4>
+    <p class="text-sm text-slate-500 mb-4">Klik pada setiap elemen untuk melihat penjelasannya.</p>
+    <div class="grid grid-cols-2 lg:grid-cols-3 gap-4" id="interactive-diagram-1">
+        <div class="interactive-element border-2 p-4 rounded-lg text-center" data-id="1-sutradara">Sutradara</div>
+        <div class="interactive-element border-2 p-4 rounded-lg text-center" data-id="1-pemain">Pemain</div>
+        <div class="interactive-element border-2 p-4 rounded-lg text-center" data-id="1-naskah">Naskah Lakon</div>
+        <div class="interactive-element border-2 p-4 rounded-lg text-center" data-id="1-panggung">Tata Panggung</div>
+        <div class="interactive-element border-2 p-4 rounded-lg text-center" data-id="1-rias">Tata Rias & Kostum</div>
+        <div class="interactive-element border-2 p-4 rounded-lg text-center" data-id="1-cahaya">Tata Cahaya & Suara</div>
+    </div>
+    <div id="interactive-detail-1" class="mt-4 p-4 bg-slate-50 rounded-lg min-h-[80px]">Pilih salah satu unsur di atas.</div>
+`;
+contentData.seniTeater[1].content = `
+    <h3 class="text-3xl font-bold text-slate-800 mb-4">Merancang Pementasan</h3>
+    <p class="mb-6 text-slate-600">Merancang pementasan teater adalah proses kolaboratif yang memerlukan perencanaan matang.</p>
+    <h4 class="font-semibold text-lg mb-2">Proses Garap Pementasan</h4>
+    <p class="text-sm text-slate-500 mb-4">Klik pada setiap tahap untuk melihat rinciannya.</p>
+    <div class="flex flex-col md:flex-row gap-2" id="interactive-diagram-2">
+        <div class="interactive-element flex-1 border-2 p-3 text-center rounded-lg" data-id="2-pra">1. Pra-Produksi</div>
+        <div class="flex items-center justify-center text-xl font-bold text-slate-300 mx-2">&rarr;</div>
+        <div class="interactive-element flex-1 border-2 p-3 text-center rounded-lg" data-id="2-prod">2. Produksi (Latihan)</div>
+        <div class="flex items-center justify-center text-xl font-bold text-slate-300 mx-2">&rarr;</div>
+        <div class="interactive-element flex-1 border-2 p-3 text-center rounded-lg" data-id="2-pasca">3. Pasca-Produksi</div>
+    </div>
+    <div id="interactive-detail-2" class="mt-4 p-4 bg-slate-50 rounded-lg min-h-[120px]">Pilih salah satu tahap di atas.</div>
+`;
+
+// INTERACTIVE DETAILS
+const interactiveDetails = {
+    "1-sutradara": "<b>Sutradara:</b> Pemimpin artistik yang menginterpretasi naskah, memilih pemain, mengarahkan akting, dan menyatukan semua elemen pementasan.",
+    "1-pemain": "<b>Pemain (Aktor/Aktris):</b> Individu yang memerankan tokoh-tokoh dalam naskah lakon sesuai dengan arahan sutradara.",
+    "1-naskah": "<b>Naskah Lakon:</b> Teks berisi dialog, alur, dan karakter yang menjadi dasar cerita pementasan.",
+    "1-panggung": "<b>Tata Panggung:</b> Desain dan penataan panggung beserta properti untuk menciptakan latar visual.",
+    "1-rias": "<b>Tata Rias & Kostum:</b> Riasan wajah dan pakaian yang dikenakan pemain untuk mendukung karakterisasi tokoh.",
+    "1-cahaya": "<b>Tata Cahaya & Suara:</b> Pengaturan pencahayaan dan efek suara untuk menciptakan suasana, fokus, dan efek dramatis.",
+    "2-pra": "<b>Pra-Produksi:</b> Tahap persiapan awal, meliputi pemilihan naskah, analisis naskah, *casting* (pemilihan pemain), perancangan konsep artistik (panggung, kostum), dan pembentukan tim produksi.",
+    "2-prod": "<b>Produksi (Latihan):</b> Inti dari proses, meliputi latihan membaca naskah, penghafalan dialog, latihan bloking (pergerakan di panggung), pengembangan karakter, hingga geladi resik (latihan terakhir).",
+    "2-pasca": "<b>Pasca-Produksi:</b> Tahap setelah pementasan selesai, meliputi pembongkaran panggung, pengembalian properti, dan yang terpenting adalah evaluasi seluruh proses produksi."
+};
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    const mainNav = document.getElementById('main-nav');
+    const subNav = document.getElementById('sub-nav');
+    const contentArea = document.getElementById('content-area');
+    const subNavTitle = document.getElementById('sub-nav-title');
+
+    function renderSubNav(subject) {
+        subNav.innerHTML = '';
+        const topics = contentData[subject];
+        let subjectTitle = '';
+        if (subject === 'bahasaInggris') subjectTitle = 'Bahasa Inggris';
+        else if (subject === 'bahasaIndonesia') subjectTitle = 'Bahasa Indonesia';
+        else if (subject === 'seniTeater') subjectTitle = 'Seni Teater';
+
+        subNavTitle.textContent = `Topik ${subjectTitle}`;
+
+        topics.forEach(topic => {
+            const button = document.createElement('button');
+            button.dataset.id = topic.id;
+            button.textContent = topic.title;
+            button.className = 'sub-nav-btn w-full text-left p-3 rounded-lg hover:bg-slate-100 transition';
+            subNav.appendChild(button);
+        });
+    }
+
+    function renderContent(topicId) {
+        let content = 'Pilih topik untuk dilihat.';
+        for (const subject in contentData) {
+            const found = contentData[subject].find(t => t.id === topicId);
+            if (found) {
+                content = found.content;
+                break;
+            }
+        }
+        contentArea.innerHTML = `<div class="content-card">${content}</div>`;
+        attachInteractiveListeners();
+    }
+
+    function attachInteractiveListeners() {
+        const diagram1 = document.getElementById('interactive-diagram-1');
+        if (diagram1) {
+            const detailBox = document.getElementById('interactive-detail-1');
+            diagram1.addEventListener('click', e => {
+                const target = e.target.closest('.interactive-element');
+                if (target) {
+                    const detailId = target.dataset.id;
+                    detailBox.innerHTML = interactiveDetails[detailId] || 'Detail tidak ditemukan.';
+                    diagram1.querySelectorAll('.interactive-element').forEach(el => el.classList.remove('selected'));
+                    target.classList.add('selected');
+                }
+            });
+        }
+        const diagram2 = document.getElementById('interactive-diagram-2');
+        if (diagram2) {
+            const detailBox = document.getElementById('interactive-detail-2');
+            diagram2.addEventListener('click', e => {
+                const target = e.target.closest('.interactive-element');
+                if (target) {
+                    const detailId = target.dataset.id;
+                    detailBox.innerHTML = interactiveDetails[detailId] || 'Detail tidak ditemukan.';
+                    diagram2.querySelectorAll('.interactive-element').forEach(el => el.classList.remove('selected'));
+                    target.classList.add('selected');
+                }
+            });
+        }
+    }
+
+    mainNav.addEventListener('click', e => {
+        if (e.target.tagName === 'BUTTON') {
+            const subject = e.target.dataset.subject;
+            mainNav.querySelectorAll('button').forEach(btn => btn.classList.remove('active'));
+            e.target.classList.add('active');
+
+            renderSubNav(subject);
+            // Auto-click first topic of the new subject
+            if (subNav.firstChild) {
+                subNav.firstChild.click();
+            }
+        }
+    });
+
+    subNav.addEventListener('click', e => {
+        if (e.target.tagName === 'BUTTON') {
+            const topicId = e.target.dataset.id;
+            subNav.querySelectorAll('button').forEach(btn => btn.classList.remove('active'));
+            e.target.classList.add('active');
+            renderContent(topicId);
+        }
+    });
+
+    // Initial load
+    mainNav.querySelector('button[data-subject="bahasaInggris"]').click();
+});
+</script>
+
+</body>
+</html>
